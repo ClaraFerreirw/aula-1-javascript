@@ -5,11 +5,24 @@ import pegaArquivo from './index.js';
 const caminho = process.argv;
 
 function imprimeLista(resultado) {
-    console.log(chalk.yellow('lista de links'), resultado)
+    console.log(
+        chalk.yellow('lista de links'),
+        chalk.black.bgGreen(identificador),
+        resultado)
 }
 
 async function processaTexto(argumentos) {
     const caminho = argumentos[2];
+
+    try {
+        fs.lstatSync(caminho);
+    } catch (erro) {
+        if (erro.code === 'ENOENT') {
+            console.log('arquivo ou diretório não existe');
+            return;
+}
+
+}
 
     if (fs.lstatSync(caminho).isFile()) {
         const resultado = await pegaArquivo(argumentos[2]);
